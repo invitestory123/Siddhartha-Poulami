@@ -157,7 +157,7 @@ function Invitation() {
               </div>
               <div className="rounded-xl border border-gold/25 bg-deep/40 p-5 backdrop-blur-xs">
                 <p className="text-[0.62rem] uppercase tracking-[0.3em] text-gold/70">Bride's Parents</p>
-                <p className="mt-2 font-display text-lg text-gold-soft">Shri Asit Mukhopadhyay</p>
+                <p className="mt-2 font-display text-lg text-gold-soft">Shri Ashit Mukhopadhyay</p>
                 <p className="font-display text-lg text-gold-soft">&amp; Smt. Amrita Mukhopadhyay</p>
                 <p className="mt-2 text-xs italic text-foreground/60">Daughter: Poulami</p>
               </div>
