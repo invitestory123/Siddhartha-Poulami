@@ -31,16 +31,29 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "You are invited to the wedding of Siddhartha & Poulami, 05 December 2026 at The Dreamland Resort, Birati, and Grand Reception on 07 December 2026 at The Prarthana Banquet, Barrackpore.",
+          "You are cordially invited to celebrate the wedding of Siddhartha & Poulami on 05 December 2026 at The Dreamland Resort, Birati, and Grand Reception on 07 December 2026 at The Prarthana Banquet, Barrackpore.",
       },
+      { property: "og:type", content: "website" },
       { property: "og:title", content: "Siddhartha & Poulami — Wedding Invitation" },
       {
         property: "og:description",
         content:
-          "A digital invitation to the wedding of Siddhartha & Poulami, 05 & 07 December 2026 in Kolkata.",
+          "You are cordially invited to celebrate the wedding of Siddhartha & Poulami on 05 December 2026 at The Dreamland Resort, Birati, and Grand Reception on 07 December 2026 at The Prarthana Banquet, Barrackpore.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:image", content: "/og-image.jpg" },
+      { property: "og:image:secure_url", content: "/og-image.jpg" },
+      { property: "og:image:type", content: "image/jpeg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Siddhartha & Poulami — Wedding Invitation" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Siddhartha & Poulami — Wedding Invitation" },
+      {
+        name: "twitter:description",
+        content:
+          "You are cordially invited to celebrate the wedding of Siddhartha & Poulami on 05 December 2026 at The Dreamland Resort, Birati, and Grand Reception on 07 December 2026 at The Prarthana Banquet, Barrackpore.",
+      },
+      { name: "twitter:image", content: "/og-image.jpg" },
     ],
   }),
   component: Invitation,
