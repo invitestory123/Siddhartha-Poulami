@@ -2,24 +2,48 @@ import { useEffect, useRef } from "react";
 
 import { gsap } from "gsap";
 
+const firstDateImage = "/story-first-date-2015.png";
 const anniversaryImage = "/story-anniversary-2018.jpg";
 const treeArchImage = "/story-tree-arch.jpg";
-const graduationImage = "/story-graduation.jpg";
+const graduationImagePoulami = "/story-graduation.jpg";
+const graduationImageSiddhartha = "/story-graduation-siddhartha.png";
 const mussoorieImage = "/story-mussoorie-2026.jpg";
 
 import { SectionHeader } from "@/components/sections/SectionHeader";
 import { ScrollTrigger, useGSAP, useMotionOk } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
+type MilestonePhoto = {
+  src: string;
+  alt: string;
+  placement: "left" | "right" | "below";
+  caption?: string;
+  aspectRatio?: "3/4" | "4/3" | "16/9";
+};
+
 type Milestone = {
   year: string;
   title: string;
   text: string;
-  /** Optional photo placement. Absent = no image (breathing room). */
-  photo?: { src: string; alt: string; placement: "left" | "right" | "below" };
+  /** Optional single photo placement. */
+  photo?: MilestonePhoto;
+  /** Optional dual photos placed side by side. */
+  sideBySidePhotos?: Array<{ src: string; alt: string; caption?: string }>;
 };
 
 const STORY: Milestone[] = [
+  {
+    year: "2015 — First Date",
+    title: "Where It All Began",
+    text: "A sweet smile, quiet laughter, and an instant spark that changed everything. The unforgettable first date in 2015 where two paths crossed and our beautiful story began.",
+    photo: {
+      src: firstDateImage,
+      alt: "Siddhartha and Poulami on their first date in 2015",
+      placement: "left",
+      aspectRatio: "4/3",
+      caption: "Our First Date · 2015",
+    },
+  },
   {
     year: "2018 — Celebration",
     title: "Celebrating Anniversary Together",
@@ -28,6 +52,8 @@ const STORY: Milestone[] = [
       src: anniversaryImage,
       alt: "Siddhartha and Poulami celebrating anniversary together with cake and candles",
       placement: "right",
+      aspectRatio: "3/4",
+      caption: "Anniversary Together · 2018",
     },
   },
   {
@@ -38,26 +64,37 @@ const STORY: Milestone[] = [
       src: treeArchImage,
       alt: "Siddhartha and Poulami framed beneath a natural tree arch in nature",
       placement: "left",
+      aspectRatio: "3/4",
+      caption: "Tranquil Woods · 2021",
     },
   },
   {
     year: "2022 — Achievement",
     title: "Proud Milestones & Dreams",
-    text: "Standing side by side through life's triumphs. With graduation cap and heartfelt pride, celebrating hard-earned dreams and the quiet comfort of always having each other's back.",
-    photo: {
-      src: graduationImage,
-      alt: "Siddhartha celebrating Poulami's convocation milestone with pride and joy",
-      placement: "right",
-    },
+    text: "Standing side by side through life's greatest milestones. Celebrating both of our convocations together — honoring hard-earned degrees, stethoscopes, and the pride of always having each other's back.",
+    sideBySidePhotos: [
+      {
+        src: graduationImagePoulami,
+        alt: "Poulami's convocation milestone with Siddhartha by her side",
+        caption: "Poulami's Convocation",
+      },
+      {
+        src: graduationImageSiddhartha,
+        alt: "Siddhartha's convocation ceremony with Poulami celebrating beside him",
+        caption: "Siddhartha's Convocation",
+      },
+    ],
   },
   {
     year: "2026 — Mussoorie",
     title: "High in the Pines",
-    text: "Amidst the scenic mountain winds and lush pine ridges of Mussoorie — pausing to admire the endless horizons, ready to walk hand-in-hand into forever.",
+    text: "Amidst the scenic mountain winds and lush pine ridges of Mussoorie — dancing hand-in-hand beneath the sunlit trees, ready to walk into forever.",
     photo: {
       src: mussoorieImage,
-      alt: "Siddhartha and Poulami taking in the majestic hills of Mussoorie",
+      alt: "Siddhartha and Poulami amidst the scenic hills of Mussoorie",
       placement: "below",
+      aspectRatio: "3/4",
+      caption: "Mussoorie · 2026",
     },
   },
 ];
@@ -120,7 +157,7 @@ export function StoryTimeline() {
     <section data-section="story" className="relative px-6 py-32">
       <SectionHeader
         eyebrow="The Story"
-        title="Four moments, one beginning."
+        title="Five moments, one beginning."
         align="center"
         className="mx-auto max-w-2xl"
       />
@@ -177,6 +214,36 @@ function MilestoneRow({ milestone }: { milestone: Milestone }) {
           {milestone.text}
         </p>
 
+        {/* Side-by-side photos for convocations */}
+        {milestone.sideBySidePhotos && (
+          <figure className="mt-1 flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 max-w-xl">
+              {milestone.sideBySidePhotos.map((p, idx) => (
+                <div
+                  key={idx}
+                  className="group relative overflow-hidden rounded-lg border border-gold/30 bg-card/40 p-1 shadow-md transition-all duration-300 hover:border-gold/60 hover:shadow-[0_0_15px_rgba(225,190,120,0.2)]"
+                >
+                  <img
+                    src={p.src}
+                    alt={p.alt}
+                    loading="lazy"
+                    className="aspect-[3/4] w-full rounded-md object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+                  />
+                  {p.caption && (
+                    <p className="mt-2 pb-1 text-center text-[0.62rem] sm:text-[0.68rem] uppercase tracking-[0.22em] text-gold-soft/90 font-medium">
+                      {p.caption}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+            <figcaption className="text-[0.6rem] uppercase tracking-[0.3em] text-gold-soft/50">
+              Celebrating both graduation milestones side by side
+            </figcaption>
+          </figure>
+        )}
+
+        {/* Single photo */}
         {photo && (
           <figure
             className={cn(
@@ -184,24 +251,37 @@ function MilestoneRow({ milestone }: { milestone: Milestone }) {
               photo.placement === "below" ? "" : `md:flex-row md:items-start ${align}`,
             )}
           >
-            <img
-              src={photo.src}
-              alt={photo.alt}
-              loading="lazy"
+            <div
               className={cn(
-                "object-cover",
+                "group relative overflow-hidden rounded-lg border border-gold/30 bg-card/40 p-1 shadow-md transition-all duration-300 hover:border-gold/60",
                 photo.placement === "below"
-                  ? "aspect-[16/9] w-full rounded-sm"
-                  : "aspect-[3/4] w-full max-w-[200px] rounded-sm",
-              )}
-            />
-            <figcaption
-              className={cn(
-                "text-[0.6rem] uppercase tracking-[0.3em] text-gold-soft/50",
-                photo.placement === "below" ? "" : "md:pt-2 md:max-w-[160px]",
+                  ? "max-w-md w-full"
+                  : photo.aspectRatio === "4/3"
+                    ? "w-full max-w-[260px]"
+                    : "w-full max-w-[210px]",
               )}
             >
-              {photo.alt}
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                className={cn(
+                  "w-full rounded-md object-cover transition-transform duration-500 group-hover:scale-[1.02]",
+                  photo.placement === "below"
+                    ? "aspect-[3/4] object-center"
+                    : photo.aspectRatio === "4/3"
+                      ? "aspect-[4/3] object-center"
+                      : "aspect-[3/4] object-center",
+                )}
+              />
+            </div>
+            <figcaption
+              className={cn(
+                "text-[0.6rem] uppercase tracking-[0.3em] text-gold-soft/60",
+                photo.placement === "below" ? "" : "md:pt-2 md:max-w-[170px]",
+              )}
+            >
+              {photo.caption || photo.alt}
             </figcaption>
           </figure>
         )}
